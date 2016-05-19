@@ -24,13 +24,80 @@
 
 
 #include <application.h>
+#include <iostream>
+
+Application::Application(std::string title)
+    : m_title(std::move(title)),
+      m_handle(nullptr),
+      m_display(nullptr),
+      m_running(true)
+{
+
+}
+
+bool Application::Initialize()
+{
+    if(SDL_Init(SDL_INIT_GAMECONTROLLER | SDL_INIT_EVENTS) != 0) {
+        std::cerr << "SDL Failed to Initialize. Exiting..." << std::endl;
+        return false;
+    }
+
+    m_window = SDL_CreateWindow(m_title.c_str(),
+        SDL_WINDOWPOS_CENTERED,
+        SDL_WINDOWPOS_CENTERED,
+        1280, 720, SDL_WINDOW_RESIZABLE);
+    if(!m_window)
+    {
+        std::cerr << "SDL Failed to create window. Exiting..." << std::endl;
+        SDL_Quit();
+        return false;
+    }
+
+#ifdef _WIN32
+
+#else
+    SDL_SysWMinfo info;
+    SDL_VERSION(&info.version);
+    if(SDL_GetWindowWMInfo(m_window, &info))
+    {
+        m_handle = (void*)info.info.x11.window;
+        m_display = info.info.x11.display;
+    }
+#endif
+
+    return true;
+}
+
+void Application::PollEvents()
+{
+    SDL_Event event;
+    while(SDL_PollEvent(&event))
+    {
+        switch(event.type)
+        {
+        case SDL_QUIT:
+            m_running = false;
+            break;
+
+        default:
+            break;
+        }
+    }
+}
 
 int Application::Run()
 {
     if(!Initialize())
         return -1;
     
-    
+    while(m_running)
+    {
+        PollEvents();
+
+        Update(0.0f);
+
+        Render(0.0f);
+    }  
 
     ShutDown();
 

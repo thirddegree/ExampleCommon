@@ -26,17 +26,30 @@
 #pragma once
 
 #include <platform.h>
+#include <string>
 
 class Application
 {
 public:
+    Application(std::string title);
+
+    virtual ~Application() = default;
+
     int Run();
 
 protected:
-    virtual bool Initialize() = 0;
+    virtual bool Initialize();
     virtual void Update(float dt) = 0;
     virtual void Render(float dt) = 0;
     virtual void ShutDown() = 0;
-private:
 
+protected:
+    std::string m_title;
+    SDL_Window* m_window;
+    void*       m_handle;
+    void*       m_display;
+    bool        m_running;
+
+private:
+    void PollEvents();
 };

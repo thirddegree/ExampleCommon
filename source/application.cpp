@@ -24,18 +24,13 @@
 
 
 #include <application.h>
-#include <sdlwindow.h>
-
 
 int Application::Run()
 {
     if(!Initialize())
         return -1;
     
-    while(m_window->IsRunning())
-    {
-        
-    }
+    
 
     ShutDown();
 

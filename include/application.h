@@ -25,7 +25,7 @@
 
 #pragma once
 
-class Window;
+#include <platform.h>
 
 class Application
 {
@@ -36,6 +36,7 @@ protected:
     virtual bool Initialize() = 0;
     virtual void Update(float dt) = 0;
     virtual void Render(float dt) = 0;
+    virtual void ShutDown() = 0;
+private:
 
-    Window* m_window;
 };

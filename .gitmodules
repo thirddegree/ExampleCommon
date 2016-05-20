@@ -1,0 +1,9 @@
+[submodule "ThirdParty/SDL2"]
+	path = ThirdParty/SDL2
+	url = https://github.com/thirddegree/SDL2.git
+[submodule "ThirdParty/assimp"]
+	path = ThirdParty/assimp
+	url = https://github.com/assimp/assimp.git
+[submodule "ThirdParty/HatchitMath"]
+	path = ThirdParty/HatchitMath
+	url = https://github.com/thirddegree/HatchitMath.git
